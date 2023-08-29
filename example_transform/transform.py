@@ -2,6 +2,8 @@ from typing import Any, Dict
 import numpy as np
 from PIL import Image
 
+from iamlab_cmu_pickup_insert.create_iamlab_data_helpers import convert_quaternion_to_euler
+
 
 ################################################################################################
 #                                        Target config                                         #
@@ -67,8 +69,12 @@ def transform_step(step: Dict[str, Any]) -> Dict[str, Any]:
         'observation': {
             'image': np.array(img),
         },
-        'action': np.concatenate(
-            [step['action'][:3], step['action'][5:8], step['action'][-2:]]),
+        # 'action': np.concatenate(
+        #     [step['action'][:3], step['action'][5:8], step['action'][-2:]]),
+        'action': np.r_[step['action'][:3], 
+                        convert_quaternion_to_euler(step['action'][3:7]),
+                        step['action'][7:8],
+                        [int(step['is_last'])]].astype(np.float32),
     }
 
     # copy over all other fields unchanged

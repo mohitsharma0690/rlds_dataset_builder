@@ -78,7 +78,15 @@ def check_elements(target, values):
 # create TF dataset
 dataset_name = args.dataset_name
 print(f"Visualizing data from dataset: {dataset_name}")
-module = importlib.import_module(dataset_name)
+try:
+    module = importlib.import_module(dataset_name)
+except ModuleNotFoundError:
+    if dataset_name.endswith('_dataset'):
+        module_name = dataset_name[:-len('_dataset')]
+        module = importlib.import_module(module_name)
+    else:
+        raise ValueError(f"Could not find module {dataset_name}")
+
 ds = tfds.load(dataset_name, split='train')
 ds = ds.shuffle(100)
 

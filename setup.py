@@ -1,3 +1,3 @@
 from setuptools import setup
 
-setup(name="<name_of_your_dataset>", packages=["<name_of_your_dataset>"])
+setup(name="iamlab_cmu_pickup_insert", packages=["iamlab_cmu_pickup_insert"])
