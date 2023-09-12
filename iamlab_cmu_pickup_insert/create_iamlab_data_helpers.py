@@ -80,7 +80,8 @@ data_paths = [
 
 def convert_quaternion_to_euler(quat: np.ndarray):
     # Since we use pyquaternion, we need to convert to scipy rotation
-    r = Rotation.from_quat([quat[-1], quat[0], quat[1], quat[2]])
+    # r = Rotation.from_quat([quat[-1], quat[0], quat[1], quat[2]])
+    r = Rotation.from_quat([quat[1], quat[2], quat[3], quat[0]])
     return r.as_euler('zyx')
 
 
